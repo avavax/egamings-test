@@ -5,6 +5,7 @@ error_reporting(E_ALL);
 include 'transactions.php';
 
 $t = new Transactions();
+$list = $t->getSummary();
 
 ?>
 
@@ -22,19 +23,17 @@ $t = new Transactions();
     </style>
 </head>
 <body>
-<h2>Transactions module</h2>
-<?php
-$list = $t->getSummary();
-echo "<table style='border-width: 1px;'>";
-echo "<tr><td>type</td><td>amount</td></tr>";
-foreach ($list as $result) {
-    echo "<tr><td>{$result['type']}</td><td>{$result['amount']}</td></tr>";
-}
-echo "</table>";
+    <h2>Transactions module</h2>
+    <table style='border-width: 1px;'>
+        <tr><td>type</td><td>amount</td></tr>
+        <?php
+            foreach ($list as $result) {
+                echo "<tr><td>{$result['type']}</td><td>{$result['amount']}</td></tr>";
+            }
+        ?>
+    </table>
 
-?>
-
-<p><a href="index.php">Back</a></p>
+    <p><a href="index.php">Back</a></p>
 
 </body>
 </html>

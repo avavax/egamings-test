@@ -12,7 +12,7 @@ class Helper {
             $sum = htmlspecialchars($_POST['sum']);
 
             $flash_msg = $t->addTransaction($name, $type, $sum) ?
-                "Запись добавлена" : "Ошибка базы данных";
+                "Transaction added" : "Database error";
             $_SESSION['flash_msg'] = $flash_msg;
         }
     }

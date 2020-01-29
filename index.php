@@ -1,7 +1,8 @@
 <?php
 session_start();
+spl_autoload_register();
+error_reporting(E_ALL);
 
-include 'transactions.php';
 $t = new Transactions();
 
 // Flash message display
@@ -50,25 +51,26 @@ $list = $t->getList(50, $current);
 
     <div class="count"></div>
 
+    <p>Transactions count: <?=$count ?></p>
+
+    <table style='border-width: 1px;'>
+    <tr><td>id</td><td>user</td><td>type</td><td>amount</td></tr>
     <?php
-    echo "<p>Transactions count: $count</p>";
-
-    echo "<table style='border-width: 1px;'>";
-    echo "<tr><td>id</td><td>user</td><td>type</td><td>amount</td></tr>";
-    foreach ($list as $transaction) {
-        echo "<tr><td>{$transaction['id']}</td><td>{$transaction['user']}</td><td>{$transaction['type']}</td><td>{$transaction['amount']}</td></tr>";
-    }
-    echo "</table><br><br>";
-
+        foreach ($list as $transaction) {
+            echo "<tr><td>{$transaction['id']}</td><td>{$transaction['user']}</td><td>{$transaction['type']}</td><td>{$transaction['amount']}</td></tr>";
+        }
     ?>
+    </table><br><br>
 
     <nav aria-label="Page navigation example">
         <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="/?current=0">Start</a></li>
             <li class="page-item"><a class="page-link" href="/?current=<?=$current ?>&move=backward">Previous</a></li>
+            <li class="page-item"><a class="page-link" href="/?current=<?=round($count / 50) ?>"><?=round($count / 50); ?></a></li>
             <li class="page-item"><a class="page-link" href="/?current=<?=$current ?>&move=forward">Next</a></li>
+            <li class="page-item"><a class="page-link" href="/?current=<?=$count ?>&move=backward">Finish</a></li>
         </ul>
     </nav>
-
 
     <h3>Add transaction</h3>
     <form action="create.php" method="POST">

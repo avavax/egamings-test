@@ -11,7 +11,6 @@ class Transactions {
 
         $this->mysql = new \mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
-
         if ($this->mysql->connect_errno) {
             echo "Connection failed\n";
             echo "Error: {$this->mysql->connect_error}\n";
@@ -50,19 +49,21 @@ class Transactions {
 
     public function getTop() {
 
-
         $query = "SELECT
                 user, amount
             FROM
                 egtest.testdata
-            ORDER BY amount desc
-            limit 10";
+            ORDER BY amount DESC
+            LIMIT 10";
         $result = $this->mysql->query($query);
         return $result->fetch_all(MYSQLI_ASSOC);
-
     }
 
     public function addTransaction(String $name, String $type, int $sum) {
+
+        $name = $this->mysql->real_escape_string($name);
+        $type = $this->mysql->real_escape_string($type);
+        $sum = $this->mysql->real_escape_string($sum);
 
         $result = $this->mysql->query("INSERT INTO testdata (user, type, amount)
             VALUES ('$name', '$type', $sum)");
